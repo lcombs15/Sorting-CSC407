@@ -1,0 +1,4 @@
+bin/
+*.csproj
+obj/
+*.config
