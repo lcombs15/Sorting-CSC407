@@ -1,28 +1,45 @@
 ﻿using System;
+using System.Collections;
+
 class Sorts
 {
     delegate void Sort(int[] nums);
 
     static void Main(string[] args)
     {
+        //Sorts to test
         Sort[] sorts = { Selection, Merge, Insertion, Quick, Heap };
+
+        //Tests case location for each sort
+        ArrayList tests = new ArrayList();
+
+        //Seed Random
         Random r = new Random();
+
         foreach (Sort sort in sorts)
         {
-            //Generate numbers to sort
-            int[] nums = genRandomInts(20, r);
-
             //Display sort intro
-            System.Console.WriteLine(new String('=', 110));
-            System.Console.Write(sort.Method.Name + " Sort: ");
-            System.Console.Write("\nUnsorted: ");
-            print_array(nums);
+            System.Console.WriteLine(new String('=', 125));
+            System.Console.WriteLine(sort.Method.Name + " Sort: ");
 
-            //Show that sort has sorted as expected
-            sort(nums);
-            System.Console.Write("\nSorted: ");
-            print_array(nums);
-            System.Console.WriteLine("\n");
+            //Setup test cases
+            tests.Clear(); //Clean up from previous tests
+            tests.Add(Tuple.Create(new int[] { 5 }, "array of length one"));
+            tests.Add(Tuple.Create(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, "already sorted array"));
+            tests.Add(Tuple.Create(new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 }, "array in descending order"));
+            tests.Add(Tuple.Create(genRandomInts(20, r), "unsorted Array"));
+
+            //Indent and run each test case
+            foreach (Tuple<int[], string> test in tests)
+            {
+                //Test heading
+                System.Console.WriteLine("\tTesting: " + test.Item2);
+
+                //Show before and after sort
+                System.Console.WriteLine("\t\tUnsorted: " + ArrayString(test.Item1));
+                sort(test.Item1);
+                System.Console.WriteLine("\t\tSorted:   " + ArrayString(test.Item1));
+            }
         }
 
         //Hold console open
@@ -56,19 +73,21 @@ class Sorts
         }
     }
 
-    static void print_array(int[] nums)
+    static string ArrayString(int[] nums)
     {
-        System.Console.Write("[");
+        string retVal = "[";
+
         for (int i = 0; i < nums.Length; i++)
         {
-            System.Console.Write(nums[i]);
+            retVal += nums[i];
             if (i != nums.Length - 1)
             {
-                System.Console.Write(", ");
+                retVal += ", ";
             }
 
         }
-        System.Console.Write("]");
+
+        return retVal + "]";
     }
 
     /* Given int, returns random int array X such that:
