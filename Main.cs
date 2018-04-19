@@ -24,9 +24,9 @@ class Sorts
 
             //Setup test cases
             tests.Clear(); //Clean up from previous tests
-            tests.Add(Tuple.Create(new int[] { 5 }, "array of length one"));
-            tests.Add(Tuple.Create(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, "already sorted array"));
-            tests.Add(Tuple.Create(new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 }, "array in descending order"));
+            //tests.Add(Tuple.Create(new int[] { 5 }, "array of length one"));
+            //tests.Add(Tuple.Create(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, "already sorted array"));
+            //tests.Add(Tuple.Create(new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 }, "array in descending order"));
             tests.Add(Tuple.Create(genRandomInts(20, r), "unsorted Array"));
 
             //Indent and run each test case
@@ -117,14 +117,15 @@ class Sorts
          * Make a copy of the given nums so that original nums
          * array can function as the "new" list insertion sort depends on
          */
-        int[] copy = nums;
+        int[] copy = new int[nums.Length];
+        nums.CopyTo(copy, 0);
 
         //Loop through all elements
         for (int i = 0; i < copy.Length; i++)
         {
             //Determine where the given element needs to go
             int j = 0;
-            while (copy[i] < nums[j] && j < i)
+            while (copy[i] >= nums[j] && j < i)
             {
                 j++;
             }
@@ -133,7 +134,7 @@ class Sorts
              * Move other elements in the array up & out of the way
              * to make room for new element
              */
-            for (int k = i; k > 0; k--)
+            for (int k = i; k > j; k--)
             {
                 nums[k] = nums[k-1];
             }
@@ -158,9 +159,7 @@ class Sorts
                     min = j;
                 }
             }
-            int temp = nums[i];
-            nums[i] = nums[min];
-            nums[min] = temp;
+            swap(nums, min, i);
         }
     }
 
