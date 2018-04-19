@@ -41,16 +41,107 @@ class Sorts
                 System.Console.WriteLine("\t\tSorted:   " + ArrayString(test.Item1));
             }
         }
-
+        
         //Hold console open
         while (true) ;
     }
 
     private static void Heap(int[] nums) { }
 
-    private static void Quick(int[] nums) { }
+    private static void Quick(int[] nums)
+    {
+        Quick(nums, 0, nums.Length - 1);
+    }
 
-    private static void Insertion(int[] nums) { }
+    private static void Quick(int[] nums, int low, int high)
+    {
+        if (low < high)
+        {
+            int p = Partition(nums, low, high);
+            Quick(nums, low, p - 1);
+            Quick(nums, p + 1, high);
+        }
+
+    }
+
+    /*
+     *  Return index P in nums[] such that everything to the left of P
+     *  is less that or equal to P, and everything to the right is greater than P.
+     *      
+     *      Low and high are assumed to be valid indexes
+     *      IE: high could be nums.length()-1 but not nums.length()
+     */
+    private static int Partition(int[] nums, int low, int high)
+    {
+        // pivot (Element to be placed at right position)
+        int pivot = nums[high];
+
+        //Highest index before pivot
+        int i = low - 1;
+
+        for (int j = low; j < high; j++)
+        {
+            //Need to move everything <= pivot
+            if (nums[j] <= pivot)
+            {
+                //Index before pivot moves up
+                i++;
+
+                //Swap new element <= pivot into position
+                swap(nums, i, j);
+            }
+        }
+
+        //Swap pivot into rightful place
+        swap(nums, i + 1, high);
+
+        //Return final pivot position
+        return i + 1;
+    }
+
+    public static void swap(int[] nums, int x, int y)
+    {
+        int temp = nums[x];
+        nums[x] = nums[y];
+        nums[y] = temp;
+    }
+
+    /*
+     *  This gets a little complicated
+     *  becuase of the void nature of this method.
+     *  
+     *  int[] nums is sorting in increasing order upon termination
+     */
+    private static void Insertion(int[] nums) {
+        /*
+         * Make a copy of the given nums so that original nums
+         * array can function as the "new" list insertion sort depends on
+         */
+        int[] copy = nums;
+
+        //Loop through all elements
+        for (int i = 0; i < copy.Length; i++)
+        {
+            //Determine where the given element needs to go
+            int j = 0;
+            while (copy[i] < nums[j] && j < i)
+            {
+                j++;
+            }
+
+            /* 
+             * Move other elements in the array up & out of the way
+             * to make room for new element
+             */
+            for (int k = i; k > 0; k--)
+            {
+                nums[k] = nums[k-1];
+            }
+
+            //Place new element into sorted position
+            nums[j] = copy[i];
+        }
+    }
 
     private static void Merge(int[] nums) { }
 
