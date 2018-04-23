@@ -39,6 +39,8 @@ class Sorts
                 System.Console.WriteLine("\t\tUnsorted: " + ArrayString(test.Item1));
                 sort(test.Item1);
                 System.Console.WriteLine("\t\tSorted:   " + ArrayString(test.Item1));
+                System.Console.Write("\t\t");
+                System.Console.Write(IsSorted(test.Item1)? "PASSED!\n" : "FAILED!!!\n");
             }
         }
 
@@ -48,9 +50,107 @@ class Sorts
 
     private static void Heap(int[] nums) { }
 
-    private static void Quick(int[] nums) { }
+    private static void Quick(int[] nums)
+    {
+        Quick(nums, 0, nums.Length - 1);
+    }
 
-    private static void Insertion(int[] nums) { }
+    /*
+     * Sorts int array using quicksort.
+     * Low and high the respective extremes for valid array indices.
+     */
+    private static void Quick(int[] nums, int low, int high)
+    {
+        if (low < high)
+        {
+            int p = Partition(nums, low, high);
+            Quick(nums, low, p - 1);
+            Quick(nums, p + 1, high);
+        }
+
+    }
+
+    /*
+     *  Return index P in nums[] such that everything to the left of P
+     *  is less that or equal to P, and everything to the right is greater than P.
+     *      
+     *      Low and high are assumed to be valid indexes
+     *      IE: high could be nums.length()-1 but not nums.length()
+     */
+    private static int Partition(int[] nums, int low, int high)
+    {
+        // pivot (Element to be placed at right position)
+        int pivot = nums[high];
+
+        //Highest index before pivot
+        int i = low - 1;
+
+        for (int j = low; j < high; j++)
+        {
+            //Need to move everything <= pivot
+            if (nums[j] <= pivot)
+            {
+                //Index before pivot moves up
+                i++;
+
+                //Swap new element <= pivot into position
+                swap(nums, i, j);
+            }
+        }
+
+        //Swap pivot into rightful place
+        swap(nums, i + 1, high);
+
+        //Return final pivot position
+        return i + 1;
+    }
+
+    //Swap X and Y in nums array
+    public static void swap(int[] nums, int x, int y)
+    {
+        int temp = nums[x];
+        nums[x] = nums[y];
+        nums[y] = temp;
+    }
+
+    /*
+     *  This gets a little complicated
+     *  becuase of the void nature of this method.
+     *  
+     *  int[] nums is sorting in increasing order upon termination
+     */
+    private static void Insertion(int[] nums)
+    {
+        /*
+         * Make a copy of the given nums so that original nums
+         * array can function as the "new" list insertion sort depends on
+         */
+        int[] copy = new int[nums.Length];
+        nums.CopyTo(copy, 0);
+
+        //Loop through all elements
+        for (int i = 0; i < copy.Length; i++)
+        {
+            //Determine where the given element needs to go
+            int j = 0;
+            while (copy[i] >= nums[j] && j < i)
+            {
+                j++;
+            }
+
+            /* 
+             * Move other elements in the array up & out of the way
+             * to make room for new element
+             */
+            for (int k = i; k > j; k--)
+            {
+                nums[k] = nums[k - 1];
+            }
+
+            //Place new element into sorted position
+            nums[j] = copy[i];
+        }
+    }
 
     private static void Merge(int[] nums) { }
 
@@ -67,9 +167,7 @@ class Sorts
                     min = j;
                 }
             }
-            int temp = nums[i];
-            nums[i] = nums[min];
-            nums[min] = temp;
+            swap(nums, min, i);
         }
     }
 
@@ -105,5 +203,25 @@ class Sorts
             retVal[i] = (r.Next() % 150) * parity;
         }
         return retVal;
+    }
+
+    //Returns true if nums are sorted in increasing order
+    static bool IsSorted(int[] nums)
+    {
+        //Any array with 1 or less elements is sorted
+        if (nums.Length <= 1)
+            return true;
+
+        int prev = nums[0];
+        for (int i = 1; i < nums.Length; i++)
+        {
+            if (nums[i] < prev)
+            {
+                return false;
+            }
+            prev = nums[i];
+        }
+
+        return true;
     }
 }
