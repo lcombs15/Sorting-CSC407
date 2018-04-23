@@ -40,7 +40,7 @@ class Sorts
                 sort(test.Item1);
                 System.Console.WriteLine("\t\tSorted:   " + ArrayString(test.Item1));
                 System.Console.Write("\t\t");
-                System.Console.Write(IsSorted(test.Item1)? "PASSED!\n" : "FAILED!!!\n");
+                System.Console.Write(IsSorted(test.Item1) ? "PASSED!\n" : "FAILED!!!\n");
             }
         }
 
