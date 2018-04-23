@@ -39,9 +39,11 @@ class Sorts
                 System.Console.WriteLine("\t\tUnsorted: " + ArrayString(test.Item1));
                 sort(test.Item1);
                 System.Console.WriteLine("\t\tSorted:   " + ArrayString(test.Item1));
+                System.Console.Write("\t\t");
+                System.Console.Write(IsSorted(test.Item1)? "PASSED!\n" : "FAILED!!!\n");
             }
         }
-        
+
         //Hold console open
         while (true) ;
     }
@@ -53,6 +55,10 @@ class Sorts
         Quick(nums, 0, nums.Length - 1);
     }
 
+    /*
+     * Sorts int array using quicksort.
+     * Low and high the respective extremes for valid array indices.
+     */
     private static void Quick(int[] nums, int low, int high)
     {
         if (low < high)
@@ -99,6 +105,7 @@ class Sorts
         return i + 1;
     }
 
+    //Swap X and Y in nums array
     public static void swap(int[] nums, int x, int y)
     {
         int temp = nums[x];
@@ -112,7 +119,8 @@ class Sorts
      *  
      *  int[] nums is sorting in increasing order upon termination
      */
-    private static void Insertion(int[] nums) {
+    private static void Insertion(int[] nums)
+    {
         /*
          * Make a copy of the given nums so that original nums
          * array can function as the "new" list insertion sort depends on
@@ -136,7 +144,7 @@ class Sorts
              */
             for (int k = i; k > j; k--)
             {
-                nums[k] = nums[k-1];
+                nums[k] = nums[k - 1];
             }
 
             //Place new element into sorted position
@@ -195,5 +203,25 @@ class Sorts
             retVal[i] = (r.Next() % 150) * parity;
         }
         return retVal;
+    }
+
+    //Returns true if nums are sorted in increasing order
+    static bool IsSorted(int[] nums)
+    {
+        //Any array with 1 or less elements is sorted
+        if (nums.Length <= 1)
+            return true;
+
+        int prev = nums[0];
+        for (int i = 1; i < nums.Length; i++)
+        {
+            if (nums[i] < prev)
+            {
+                return false;
+            }
+            prev = nums[i];
+        }
+
+        return true;
     }
 }
