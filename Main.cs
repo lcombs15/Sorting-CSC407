@@ -24,7 +24,7 @@ class Sorts
 
             //Setup test cases
             tests.Clear(); //Clean up from previous tests
-            tests.Add(Tuple.Create(new int[] { 5 }, "array of length one"));
+            tests.Add(Tuple.Create(genRandomInts(1,r), "array of length one"));
             tests.Add(Tuple.Create(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, "already sorted array"));
             tests.Add(Tuple.Create(new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 }, "array in descending order"));
             tests.Add(Tuple.Create(genRandomInts(20, r), "unsorted Array"));
