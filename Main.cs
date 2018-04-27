@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 
 class Sorts
@@ -8,7 +8,7 @@ class Sorts
     static void Main(string[] args)
     {
         //Sorts to test
-        Sort[] sorts = { Selection, Merge, Insertion, Quick, Heap };
+        Sort[] sorts = { Selection, Bubble, Insertion, Quick, Heap };
 
         //Tests case location for each sort
         ArrayList tests = new ArrayList();
@@ -48,7 +48,51 @@ class Sorts
         while (true) ;
     }
 
-    private static void Heap(int[] nums) { }
+    private static void Heap(int[] nums) {
+        // Build heap (rearrange array)
+        for (int i = nums.Length / 2 - 1; i>=0; i--){
+            heapify(nums, nums.Length, i);
+        }
+
+        // One by one extract an element from heap
+        for (int i = nums.Length - 1; i >= 0; i--){
+        // Move current root to end
+        swap(nums, 0, i);
+
+        // call max heapify on the reduced heap
+        heapify(nums, i, 0);
+        }
+    }
+
+    // To heapify a subtree rooted with node i which is
+    // an index in arr[]. n is size of heap
+    private static void heapify(int[] nums, int length, int i)
+    {
+        int largest = i;
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+
+        //check if left is larger than current largest
+        if (left < length && nums[left] > nums[largest])
+        {
+            //sets largest to value of left
+            largest = left;
+        }
+        //check if right is larger than current largest
+        if (right < length && nums[right] > nums[largest])
+        {
+            //sets largest to value of right
+            largest = right;
+        }
+        //check if largest is not equal to i
+        if (largest != i)
+        {
+            //swap i and largest in the nums array
+            swap(nums, i, largest);
+            //recursive call to heapify using the new largest 
+            heapify(nums, length, largest);
+        }
+        }
 
     private static void Quick(int[] nums)
     {
@@ -152,7 +196,16 @@ class Sorts
         }
     }
 
-    private static void Merge(int[] nums) { }
+    private static void Bubble(int[] nums){
+        for (int i = 0; i <= nums.Length - 2; i++) {
+            for (int j = 0; j <= nums.Length - 2; j++) {
+                if (nums[j] > nums[j + 1]) {
+                    swap(nums, j, j + 1);
+                }
+            }
+        }
+    }
+
 
     //Given array of ints, array is sorted on termination.
     static void Selection(int[] nums)
