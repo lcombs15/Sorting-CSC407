@@ -24,7 +24,7 @@ class Sorts
 
             //Setup test cases
             tests.Clear(); //Clean up from previous tests
-            tests.Add(Tuple.Create(genRandomInts(1,r), "array of length one"));
+            tests.Add(Tuple.Create(genRandomInts(1, r), "array of length one"));
             tests.Add(Tuple.Create(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, "already sorted array"));
             tests.Add(Tuple.Create(new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 }, "array in descending order"));
             tests.Add(Tuple.Create(genRandomInts(20, r), "unsorted Array"));
@@ -48,19 +48,22 @@ class Sorts
         while (true) ;
     }
 
-    private static void Heap(int[] nums) {
+    private static void Heap(int[] nums)
+    {
         // Build heap (rearrange array)
-        for (int i = nums.Length / 2 - 1; i>=0; i--){
+        for (int i = nums.Length / 2 - 1; i >= 0; i--)
+        {
             heapify(nums, nums.Length, i);
         }
 
         // One by one extract an element from heap
-        for (int i = nums.Length - 1; i >= 0; i--){
-        // Move current root to end
-        swap(nums, 0, i);
+        for (int i = nums.Length - 1; i >= 0; i--)
+        {
+            // Move current root to end
+            swap(nums, 0, i);
 
-        // call max heapify on the reduced heap
-        heapify(nums, i, 0);
+            // call max heapify on the reduced heap
+            heapify(nums, i, 0);
         }
     }
 
@@ -92,7 +95,7 @@ class Sorts
             //recursive call to heapify using the new largest 
             heapify(nums, length, largest);
         }
-        }
+    }
 
     private static void Quick(int[] nums)
     {
@@ -196,10 +199,14 @@ class Sorts
         }
     }
 
-    private static void Bubble(int[] nums){
-        for (int i = 0; i <= nums.Length - 2; i++) {
-            for (int j = 0; j <= nums.Length - 2; j++) {
-                if (nums[j] > nums[j + 1]) {
+    private static void Bubble(int[] nums)
+    {
+        for (int i = 0; i <= nums.Length - 2; i++)
+        {
+            for (int j = 0; j <= nums.Length - 2; j++)
+            {
+                if (nums[j] > nums[j + 1])
+                {
                     swap(nums, j, j + 1);
                 }
             }
